@@ -93,7 +93,8 @@ include 'config.php';
                 $flag= $voter_info[0]['flag'];
                 if($flag == 0)
                 {
-                    header("location: vote.php");
+                    //header("location: vote.php");
+                    header("location: webcam.php");
                 }
                 else{
                     $nam = $_COOKIE['voterName'];
