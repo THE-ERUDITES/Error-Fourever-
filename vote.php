@@ -96,7 +96,7 @@ include 'config.php';
           <span class="icon-bar"></span>
         </button>
         <div class="navbar-header">
-          <a href="#" class="navbar-brand headerFont text-lg"><strong>eVoting</strong></a>
+          <a href="#" class="navbar-brand headerFont text-lg"  style="color:rgb(169, 208, 240)"><strong>ePoll</strong></a>
         </div>
       </div> 
     </nav>  
