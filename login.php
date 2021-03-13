@@ -25,6 +25,7 @@
                     $_SESSION['voter_id'] = $voters[0]['voter_id'];
                     $_SESSION['uname'] = $voters[0]['uname'];
                     $_SESSION['password']=$password;
+                    $_SESSION['voter_photo'] = $voters[0]['voter_photo'];
                     // generate OTP
                     $otp = rand(100000,999999);
                     // Send OTP

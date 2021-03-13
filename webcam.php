@@ -56,11 +56,15 @@
 </html>
 
 <?php
+
+session_start();
+
+
 if(!empty($_POST))
  {
     $img = $_POST['image'];
     $folderPath = "";
-    $output = false;
+    #$output = false;
     $image_parts = explode(";base64,", $img);
     $image_type_aux = explode("image/", $image_parts[0]);
     $image_type = $image_type_aux[1];
@@ -71,19 +75,24 @@ if(!empty($_POST))
     $file = $folderPath . $fileName;
     file_put_contents($file, $image_base64);
   
-    print_r($fileName);
-    $data = 'charmi1.jpeg'; 
+    #print_r($fileName);
+    $data = $_SESSION["voter_photo"]; 
     $output=shell_exec("python app.py "  .$data);
     //echo "yo";
     echo $output;
-    if($output[0] == 'True')
+    echo $_SESSION["voter_photo"];
+    echo gettype($output);
+
+    if($output[0] === '0')
     {
+        echo "yo";
         header("location: vote.php");
     }
     else
     {
         echo "<script>alert('Face not matched !');</script>";
         header("location: index.html");
+        echo "false";
     }
 }
 ?>
