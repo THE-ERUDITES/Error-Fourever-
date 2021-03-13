@@ -6,16 +6,17 @@
     {
     die("Connection Failed");
     }
-	$errors=array('name'=>'','email'=>'','age'=>'','uname'=>'','voter_id'=>'','password'=>'','cpassword'=>'','flag'=>'');
+	$errors=array('name'=>'','email'=>'','age'=>'','uname'=>'','voter_id'=>'','password'=>'','cpassword'=>'','flag'=>'','voter_photo'=>'');
 
 	if(isset($_POST['submit'])){
         $name=$_POST['name'];
         $email=$_POST['email'];
         $age = $_POST['age'];
-		$uname=$_POST['uname'];
-		$voter_id=$_POST['voter_id'];
-		$password=$_POST['password'];
-		$cpassword=$_POST['cpassword'];
+        $uname=$_POST['uname'];
+		    $voter_id=$_POST['voter_id'];
+		    $password=$_POST['password'];
+		    $cpassword=$_POST['cpassword'];
+        
         $flag = false;
         $active = 0;
 		$valid=true;
@@ -82,7 +83,17 @@
 		if($password!=$cpassword){
 			$errors['cpassword']='*Passwords not matching';
 			$valid=false;
-		}
+    }
+    
+    //image upload
+    $filename = $_FILES['voter_photo']['name'];
+    if(!empty($filename)){
+      move_uploaded_file($_FILES['voter_photo']['tmp_name'], 'images/'.$filename);	
+    }else{
+      $valid=false;
+      $error['voter_photo']='*Please upload your passport photo';
+    }
+
         if($valid)
         {
             if($conn)
@@ -90,7 +101,7 @@
                 $msg = 'Your account has been made, <br /> please verify it by clicking the activation link that has been send to your email.';
                 $hash = md5( rand(0,1000) ); // Generate random 32 character hash and assign it to a local variable.
                 // Example output: f4552671f8909587cf485ea990207f3b
-                $sql="INSERT INTO voter VALUES('$name','$email','$age','$uname','$voter_id','$password','$flag','$hash','$active')";
+                $sql="INSERT INTO voter VALUES('$name','$email','$age','$uname','$voter_id','$password','$flag','$hash','$active','$filename')";
                 $res=mysqli_query($conn,$sql);  
                 $message = '
                 
@@ -185,7 +196,7 @@
     				<h2 class="specialHead">Sign up</h2>
                 </div>
                 
-          <form action="signup.php" method="POST">
+          <form action="signup.php" method="POST" enctype="multipart/form-data">
       			<div class="form-group">
                       
                       <label>Full Name:</label>
@@ -208,6 +219,9 @@
                         <label>Voter ID:</label>
                         <input type="int" name="voter_id" class="form-control" placeholder="7 digits" value="<?php echo isset($_POST["voter_id"]) ? $_POST["voter_id"] : ''; ?>" pattern="[0-9]{7}" required>
                         <div style="color: red;"><?php echo $errors['voter_id']; ?><br><br></div>   
+                        
+                        <label>Select image to upload:</label><br> <input type="file" name="voter_photo" id="fileToUpload"><br><br>
+                        
                         <label>Password:</label>
                         <input type="password" name="password" class="form-control" placeholder="8-50 numbers" required>
                         <div style="color: red;"><?php echo $errors['password']; ?></div><br><br>
