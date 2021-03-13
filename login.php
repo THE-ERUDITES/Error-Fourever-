@@ -2,15 +2,16 @@
   session_start();
   include 'config.php';
     $conn = mysqli_connect($db_host,$db_user,$db_password,$db_name);
-
+    $success = "";
+    $error_message = "";
 	$error='';
 	
-	if(isset($_POST['submit'])){
-    //$uname=$_POST['uname'];
-    $email=$_POST['email'];
+	if(isset($_POST['submit_email'])){
+		$email=$_POST['email'];
 		$password=$_POST['password'];
         if($conn){
 			$sql="SELECT * FROM voter WHERE email='$email' AND password='$password'";
+      echo "1";
             $res=mysqli_query($conn,$sql);
             
 			if(mysqli_num_rows($res)>0){
@@ -24,12 +25,26 @@
                     $_SESSION['voter_id'] = $voters[0]['voter_id'];
                     $_SESSION['uname'] = $uname;
                     $_SESSION['password']=$password;
-                    setcookie("voterName",$voters[0]['name'], time() + 60*60*24,'/');
-                    header("location: user_profile.php");
+                    // generate OTP
+                    $otp = rand(100000,999999);
+                    // Send OTP
+                    require_once("mail_function.php");
+                    $mail_status = sendOTP($_POST["email"],$otp);
+                    
+                    if($mail_status == 1) {
+                      //$id=$id+1;
+                      $result = mysqli_query($conn,"INSERT INTO otp_expiry(otp,is_expired,create_at) VALUES ('" . $otp . "', 0, '" . date("Y-m-d H:i:s"). "')");
+                      $current_id = mysqli_insert_id($conn);
+                      if(!empty($current_id)) {
+                        $success=1;
+                      }
+                    }
+                    // setcookie("voterName",$voters[0]['name'], time() + 60*60*24,'/');
+                    // header("location: user_profile.php");
                 }
                 else
                 {
-                    $error='account is not activated';
+                    echo 'account is not activated';
                 }
                 
 			}
@@ -38,6 +53,17 @@
 			}
 		}
 	}
+  if(isset($_POST["submit_otp"])) {
+    $result = mysqli_query($conn,"SELECT * FROM otp_expiry WHERE otp='" . $_POST["otp"] . "' AND is_expired!=1 AND NOW() <= DATE_ADD(create_at, INTERVAL 24 HOUR)");
+    $count  = mysqli_num_rows($result);
+    if(!empty($count)) {
+      $result = mysqli_query($conn,"UPDATE otp_expiry SET is_expired = 1 WHERE otp = '" . $_POST["otp"] . "'");
+      $success = 2;	
+    } else {
+      $success =1;
+      $error_message = "Invalid OTP!";
+    }	
+  }
 ?>
 
 <!DOCTYPE html>
@@ -91,29 +117,42 @@
     			<div class="page-header">
     				<h2 class="specialHead">Log In</h2>
                 </div>
-                
-          <form action="login.php" method="POST">
-      			<div class="form-group">
+                <form method="post" action="login.php">
+                    <div class="form-group">
+                      <?php 
+                        if(!empty($success == 1)) { 
+                      ?>
+                      <label>Enter OTP</label>
+                      <p style="color:#31ab00;">Check your email for the OTP</p>
+                      <input type="text" name="otp"  class="form-control" required><br><br>
                       
-                    <!--<label>Username:</label>
-                    <input type="text" name="uname" class="form-control" required><br><br>
-                    -->
-                    <!-- email instead of username for security purposes -->
-                    <label>Registered Email ID:</label>
-                    <input id="email" type="email" name="email" class="form-control" required><br><br>
-                    
+                      <h5 style="color: red;"><?php echo $error_message; ?></h5>
+
+                      <button type="submit" name="submit_otp" class="btn btn-block span btn-primary "><span class="glyphicon glyphicon-OK"></span> Submit OTP</button>  
+                      <?php 
+                        } else if ($success == 2) {
+                          header("location: user_profile.php");
+                          ?>
+                      <?php
+                        }
+                        else {
+                      ?>
+                      <label>Email:</label>
+                    <input type="email" name="email" class="form-control" required><br><br>
 
                     <label>Password:</label>
                     <input type="password" name="password" class="form-control" required><br><br>
 
                     <h5 style="color: red;"><?php echo $error; ?></h5>
 
-              <!--otp generation button-->
-      				<button type="submit" name="submit" class="btn btn-block span btn-primary" onclick="send_otp()"><span class="glyphicon glyphicon-user"></span>Generate OTP to LOG IN</button>
+      				      <button type="submit" name="submit_email" class="btn btn-block span btn-primary "><span class="glyphicon glyphicon-user"></span> Log In</button>
                     <br><a href="signup.php" class="form-control">New User? SignUp</a>
-      			</div>
-
-          </form>
+                      <?php 
+                        }
+                      ?>
+                    </div>
+                  </form>      
+        
           <br>
 
     		</div>
@@ -124,13 +163,5 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-
-    <!--OTP function-->
-    <script>
-      var email=jQuery('$email').val();
-      jQuery.ajax({
-        url:'send_otp.php'
-      })
-    </script>
 </body>
-</html> 
+</html>
