@@ -129,25 +129,7 @@
                 mysqli_close($conn);
         }
     }
-        ##################################################################################################################################
-		// if($valid){
-		// 	if($conn){
-        //         $sql="INSERT INTO voter VALUES('$name','$email','$age','$uname','$voter_id','$password','$flag')";
-        //         $res=mysqli_query($conn,$sql);
-		// 		if($res) {
-		// 			$_SESSION['name'] = $name;
-		// 			$_SESSION['age']=$age;
-		// 			$_SESSION['email']=$email;
-		// 			$_SESSION['uname']=$uname;
-		// 			$_SESSION['voter_id']=$voter_id;
-        //             $_SESSION['password']=$password;
-        //             $_SESSION['flag']=$flag;
-		// 			//setcookie("name",$name, time() + 60*60*24,'/');
-		// 			header("location: user_profile.php");
-		// 		}
-		// 	}
-		// 	mysqli_close($conn);
-		// }
+ 
 	}
 ?>
 
@@ -189,7 +171,7 @@
 <div class="container">
   	<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
         <div class="navbar-header">
-          <a href="index.html" class="navbar-brand headerFont text-lg"><strong>eVoting</strong></a>
+          <a href="index.html" class="navbar-brand headerFont text-lg" style="color:rgb(169, 208, 240)"><strong>ePoll</strong></a>
       </div>
     </nav>
 
@@ -234,7 +216,7 @@
                         <input type="password" name="cpassword" class="form-control" required>
                         <div style="color: red;"><?php echo $errors['cpassword']; ?></div><br><br>
 
-      				<button type="submit" name="submit" class="btn btn-block span btn-primary "><span class="glyphicon glyphicon-user"></span> Sign In</button>
+      				<button type="submit" name="submit" class="btn btn-block span btn-success "><span class="glyphicon glyphicon-user"></span> Sign In</button>
                     <br><a class="form-control" href="login.php">Already an user? Log in!</a>
       			</div>
 

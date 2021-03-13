@@ -23,7 +23,7 @@
                     $_SESSION['email'] = $voters[0]['email'];
                     $_SESSION['age'] = $voters[0]['age'];
                     $_SESSION['voter_id'] = $voters[0]['voter_id'];
-                    $_SESSION['uname'] = $uname;
+                    $_SESSION['uname'] = $voters[0]['uname'];
                     $_SESSION['password']=$password;
                     // generate OTP
                     $otp = rand(100000,999999);
@@ -40,7 +40,7 @@
                       }
                     }
                     // setcookie("voterName",$voters[0]['name'], time() + 60*60*24,'/');
-                    // header("location: user_profile.php");
+                    
                 }
                 else
                 {
@@ -104,10 +104,9 @@
 <div class="container">
   	<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
         <div class="navbar-header">
-          <a href="index.html" class="navbar-brand headerFont text-lg"><strong>eVoting</strong></a>
+          <a href="index.html" class="navbar-brand headerFont text-lg" style="color:rgb(169, 208, 240)"><strong>ePoll</strong></a>
       </div>
     </nav>
-
     
     <div class="container" style="padding-top:150px;">
     	<div class="row">
@@ -145,7 +144,7 @@
 
                     <h5 style="color: red;"><?php echo $error; ?></h5>
 
-      				      <button type="submit" name="submit_email" class="btn btn-block span btn-primary "><span class="glyphicon glyphicon-user"></span> Log In</button>
+      				      <button type="submit" name="submit_email" class="btn btn-block span btn-success "><span class="glyphicon glyphicon-user"></span> Log In</button>
                     <br><a href="signup.php" class="form-control">New User? SignUp</a>
                       <?php 
                         }
