@@ -9,7 +9,7 @@ Once an account is verified, the user can login. At this step, an OTP is sent vi
 
 In the Admin's control panel, the admin can insert new candidates or update information of old candidates. Also admin can see the statistics of the election through graphs. It can be accessed only by person having admin login credentials. 
 
-We have used PHPMailer for email-triggering. Also, whoever hosts the website should change google settings to allow less secure apps. 
+We have used PHPMailer for email-triggering.Make sure that you copy the PHPmailer folder outside your project folder. Moreover, whoever hosts the website should change google settings to allow less secure apps. 
 
 Tech Stack used: PHP, SQL, HTML, CSS, BOOTSTRAP, PYTHON, DEEP LEARNING
 
