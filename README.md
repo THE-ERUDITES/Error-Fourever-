@@ -1,5 +1,5 @@
 # Error-Fourever-
-#E-POLL - HACKBASH 2021 <br>
+<h4><b>E-POLL - HACKBASH 2021</b></h4><br><br>
 The idea of the project was to build an E-Voting System for conducting elections securely, easily and reliably. The importance of an online system clearly emerged during the pandemic when the number of covid cases increased in those states of India where elections were conducted through traditional methods at poll booths. Apart from pandemic times. The E-Voting System allows users to vote in their free time and from anywhere and there is reduced congestion.Moreover it becomes quite difficult to conduct general elections online, especially with proper verification of the voter in their absence. To facilitate this, we propose a feasible solution aiming to attain utmost security and verification including features such as email verification, OTP generation and face recognition.
 
 There is a government database which contains the email-id of all voters along with their valid voter IDs. On landing upon the home page, a voter has options to check out the details of the candidates and to cast his vote. When the user decides to cast his vote, he/she needs to register himself with the email-id and voter ID in govt. Database and fill in other details like age and photo. Upon signing up, the user receives a verification mail.
