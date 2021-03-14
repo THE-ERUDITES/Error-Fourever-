@@ -32,7 +32,7 @@
   <body>
   <div class="container">
     <div class= "row">
-    <?php $var = $_COOKIE['voterName']; ?>
+    <!-- <?php $var = $_COOKIE['voterName']; ?> -->
     <?php echo "<h2 class='text-info specialHead text-center'><strong> Thank you ".$var." !</strong></h2>"; ?>
     <?php setcookie("voterName","",time()-60*60*24,'/'); ?>
     <?php echo "<h3 class='text-info specialHead text-center'><strong> YOU'VE  SUCCESSFULLY   VOTED.</strong></h3>"; ?>

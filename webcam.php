@@ -12,7 +12,6 @@
 <body>
   
 <div class="container">
-    <h1 class="text-center">Capture webcam image with php and jquery - ItSolutionStuff.com</h1>
    
     <form method="POST" action="webcam.php">
         <div class="row">
